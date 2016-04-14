@@ -24,15 +24,15 @@ var ParkingMap = ParkingMap || {};
   var layerNames = [
   'scooters',
   'lots',
-  'valet',
-  'snowroutes',
+  'garages',
+//  'snowroutes',
   'meters',
   'rpp',
-  'rppdistricts',
-  'meters-testing',
+//  'rppdistricts',
+//  'meters-testing',
   'satellite'];
 
-  var accessToken = 'pk.eyJ1IjoibGF1cmVuYW5jb25hIiwiYSI6ImNpa2d4YWpubTAwdXR1eGttcmw5dXYyenIifQ.JeAAAiEbZq3OB4L0cShJMA';
+  var accessToken = 'pk.eyJ1IjoibGF1cmVuYW5jb25hIiwiYSI6ImNpbXkzOXpsYzAzc3d1cGtreXY5ODJrdTEifQ.h42F-DpmFjOC1AdCcUYmyw';
 
   var mapProgressDom = document.getElementById('map-progress');
 
@@ -82,17 +82,17 @@ var ParkingMap = ParkingMap || {};
 
     mapboxgl.accessToken = accessToken;
 
-    // Set bounds to Philadelphia metro
-    var bounds = [
-  [-75.387541, 39.864439],
-  [-74.883544, 40.156325]
-];
+    // TODO: Set bounds to Washington, DC metro
+//    var bounds = [
+//  [-75.387541, 39.864439],
+//  [-74.883544, 40.156325]
+// ];
 
     var map = ParkingMap.map = new mapboxgl.Map({
       container: 'map', // container id
-      style: 'mapbox://styles/laurenancona/cij3k82x800018wkmhwgg7tgt', // stylesheet location
-      center: [-75.1694, 39.9294],
-      bearing: 9.2, // Rotate Philly ~9° off of north, thanks Billy Penn.
+      style: 'mapbox://styles/laurenancona/cigvuc6hj000h9om3gy2wy1e7', // stylesheet location
+      center: [-77.0378, 38.8998],
+      bearing: 1, // Rotate Philly ~9° off of north, thanks Billy Penn.
       zoom: 12,
       maxZoom: 19,
       minZoom: 12,
@@ -140,10 +140,10 @@ var ParkingMap = ParkingMap || {};
         console.log(p);
         if (p > 0) {
           map.flyTo({
-            center: [-75.1646, 39.9516],
-            zoom: 15,
-            speed: 0.3,
-            bearing: 9.2,
+            center: [-77.04, 38.90],
+            zoom: 14.2,
+            speed: 0.2,
+            bearing: 1,
             pitch: 0
           });
         }
@@ -224,13 +224,14 @@ var ParkingMap = ParkingMap || {};
     map.on('load', function () {
       var layerAssociation = { //using '.i' in GL layernames we want to be interactive
         'scooters': ['scooters.i'],
-        'valet': ['valet.i'],
-        'snowroutes': ['snow_emergency_routes', 'snow_emergency_routes.label'],
-        'lots': ['lots.i', 'lots.label'],
-        'meters': ['meterblocks_n.i', 'meterblocks_s.i', 'meterblocks_e.i', 'meterblocks_w.i', 'meters.i', 'meters.circle.i'],
-        'rpp': ['rppblocks_bothsides.i', 'rppblocks_1side.i', 'rppblocks.label'],
-        'rppdistricts': ['rppdistricts', 'rppdistricts.line', 'rppdistricts.label', 'rppdistricts.line_case'],
-        'meters-testing': ['meters-testing-side.i'], //
+//        'valet': ['valet.i'],
+//        'snowroutes': ['snow_emergency_routes', 'snow_emergency_routes.label'],
+        'lots': ['lots.i'],
+        'garages': ['garages.i'],
+        'meters': ['meters.i'],
+        'rpp': ['rpp.i'],
+//        'rppdistricts': ['rppdistricts', 'rppdistricts.line', 'rppdistricts.label', 'rppdistricts.line_case'],
+//        'meters-testing': ['meters-testing-side.i'], //
         'satellite': ['satellite']
       };
 
@@ -381,112 +382,109 @@ var ParkingMap = ParkingMap || {};
     var content;
 
     switch (tpl) {
-      case 'rppblocks_bothsides.i':
-      case 'rppblocks_1side.i':
-        content = '<div><span class="location">' +
-          feature.properties.block_street + '&nbsp;&nbsp;' +
-          '</span><br>' +
-          '<span class="rpp"><span class="loading-icons material-icons">' +
-          '<img src="img/icons/RPP.svg"></span>' +
-          '<span class="no-parking">' + feature.properties.sos +
-          '<br>Residential Permit Parking</span>' +
-          '</span></div>';
-        break;
+//      case 'rppblocks_bothsides.i':
+//      case 'rppblocks_1side.i':
+//        content = '<div><span class="location">' +
+//          feature.properties.block_street + '&nbsp;&nbsp;' +
+//          '</span><br>' +
+//          '<span class="rpp"><span class="loading-icons material-icons">' +
+//          '<img src="img/icons/RPP.svg"></span>' +
+//          '<span class="no-parking">' + feature.properties.sos +
+//          '<br>Residential Permit Parking</span>' +
+//          '</span></div>';
+//        break;
 
-      case 'lots.i':
-        content = '<div>' + (feature.properties.name ?
-            '<span class="location">' + feature.properties.name + ' </span>' : '') +
-          '<span class="detail">' + (feature.properties.description ?
-            feature.properties.description : '') +
-          (feature.properties.address ?
-            '<br>' + feature.properties.address : '') +
-          (feature.properties.type ?
-            '<br>' + feature.properties.type : '') +
-          (feature.properties.capacity ?
-            '&nbsp; | &nbsp;Capacity: ' + feature.properties.capacity : '') +
-          (feature.properties.hours ?
-            '<br>' + feature.properties.hours : '') +
-          (feature.properties.days ?
-            '<br>' + feature.properties.days : '') +
-          (feature.properties.times ?
-            ' &nbsp;' + feature.properties.times : '') +
-          (feature.properties.rates ?
-            '<br><span class="detail">Rates: ' + feature.properties.rates + '</span>' : '') +
-          (feature.properties.notes ?
-            '<br>' + feature.properties.notes + '<br>' : '') + '</span></div>';
-        break;
+//      case 'lots.i':
+//        content = '<div>' + (feature.properties.name ?
+//            '<span class="location">' + feature.properties.name + ' </span>' : '') +
+//          '<span class="detail">' + (feature.properties.description ?
+//            feature.properties.description : '') +
+//          (feature.properties.address ?
+//            '<br>' + feature.properties.address : '') +
+//          (feature.properties.type ?
+//            '<br>' + feature.properties.type : '') +
+//          (feature.properties.capacity ?
+//            '&nbsp; | &nbsp;Capacity: ' + feature.properties.capacity : '') +
+//          (feature.properties.hours ?
+//            '<br>' + feature.properties.hours : '') +
+//          (feature.properties.days ?
+//            '<br>' + feature.properties.days : '') +
+//          (feature.properties.times ?
+//            ' &nbsp;' + feature.properties.times : '') +
+//          (feature.properties.rates ?
+//            '<br><span class="detail">Rates: ' + feature.properties.rates + '</span>' : '') +
+//          (feature.properties.notes ?
+//            '<br>' + feature.properties.notes + '<br>' : '') + '</span></div>';
+//        break;
 
-      case 'valet.i':
-        content = '<div>' + (feature.properties.Name ?
-            '<span class="location">' + feature.properties.Name + '</span>' : '') +
-          (feature.properties.Hours ?
-            '<p class="detail">Hours: ' + feature.properties.Hours + '<br>' : '') +
-          (feature.properties.Spaces ?
-            'Spaces: ' + feature.properties.Spaces : '') +
-          '</p></div>';
-        break;
+//      case 'valet.i':
+//        content = '<div>' + (feature.properties.Name ?
+//            '<span class="location">' + feature.properties.Name + '</span>' : '') +
+//          (feature.properties.Hours ?
+//            '<p class="detail">Hours: ' + feature.properties.Hours + '<br>' : '') +
+//          (feature.properties.Spaces ?
+//            'Spaces: ' + feature.properties.Spaces : '') +
+//          '</p></div>';
+//        break;
 
-      case 'meterblocks_n.i':
-      case 'meterblocks_s.i':
-      case 'meterblocks_e.i':
-      case 'meterblocks_w.i':
-        content = []; // TODO: do this outside the switch once all are converted
-        content.push('<div>');
+//      case 'meters.i':
+//        content = []; // TODO: do this outside the switch once all are converted
+//        content.push('<div>');
+//
+//        if (feature.properties.l_hund_block_label) {
+//          content.push(
+//            '<span class="location">',
+//            feature.properties.l_hund_block_label,
+//            '</span>',
+//            '<br>'
+//          );
+//        }
 
-        if (feature.properties.l_hund_block_label) {
-          content.push(
-            '<span class="location">',
-            feature.properties.l_hund_block_label,
-            '</span>',
-            '<br>'
-          );
-        }
+//        content.push(
+//          '<div class="regulations clearfix">',
+//          '<span class="regulations-side">',
+//          feature.properties.side,
+//          ' side </span><br>',
+//          '<span class="rate">',
+//          '<i class="material-icons">settings_input_hdmi</i>',
+//          '</span>',
+//
+//          '<span class="tariff">', (
+//            feature.properties.rate1 ? feature.properties.rate1 + '&nbsp;&nbsp;' + feature.properties.rate : ''
+//          ), (
+//            feature.properties.rate2 ? '<br>' + feature.properties.rate2 + '&nbsp;&nbsp;' + feature.properties.rate : ''
+//          ), (
+//            feature.properties.rate3 ? '<br>' + feature.properties.rate3 + '&nbsp;&nbsp;' + feature.properties.rate : ''
+//          ),
+//          '</span>',
+//          '</div>'
+//        );
 
-        content.push(
-          '<div class="regulations clearfix">',
-          '<span class="regulations-side">',
-          feature.properties.side,
-          ' side </span><br>',
-          '<span class="rate">',
-          '<i class="material-icons">settings_input_hdmi</i>',
-          '</span>',
+//        if (feature.properties.no_parking_message) {
+//
+//          content.push(
+//            '<div class="exceptions">',
+//            '<span class="loading-icons"><i class="material-icons">not_interested</i></span>',
+//            '<span class="no-parking">', (
+//              feature.properties.no_parking_message ? feature.properties.no_parking_message + '<br>' : ''
+//            ), (
+//              feature.properties.no_parking1 ? feature.properties.no_parking1 + '<br>' : ''
+//            ), (
+//              feature.properties.no_parking2 ? feature.properties.no_parking2 : ''
+//            ),
+//            '</span>',
+//            '</div>'
+//          );
+//        }
+//
+//        content.push('</div>');
+//
+//        content = content.join('');
+//        break;
 
-          '<span class="tariff">', (
-            feature.properties.rate1 ? feature.properties.rate1 + '&nbsp;&nbsp;' + feature.properties.rate : ''
-          ), (
-            feature.properties.rate2 ? '<br>' + feature.properties.rate2 + '&nbsp;&nbsp;' + feature.properties.rate : ''
-          ), (
-            feature.properties.rate3 ? '<br>' + feature.properties.rate3 + '&nbsp;&nbsp;' + feature.properties.rate : ''
-          ),
-          '</span>',
-          '</div>'
-        );
-
-        if (feature.properties.no_parking_message) {
-
-          content.push(
-            '<div class="exceptions">',
-            '<span class="loading-icons"><i class="material-icons">not_interested</i></span>',
-            '<span class="no-parking">', (
-              feature.properties.no_parking_message ? feature.properties.no_parking_message + '<br>' : ''
-            ), (
-              feature.properties.no_parking1 ? feature.properties.no_parking1 + '<br>' : ''
-            ), (
-              feature.properties.no_parking2 ? feature.properties.no_parking2 : ''
-            ),
-            '</span>',
-            '</div>'
-          );
-        }
-
-        content.push('</div>');
-
-        content = content.join('');
-        break;
-
-      case 'meters-testing-side.i':
-        content = '<div class="detail">These blocks are still being verified.</div>'
-      break;
+//      case 'meters-testing-side.i':
+//        content = '<div class="detail">These blocks are still being verified.</div>'
+//      break;
 //        var template = _.template(
 //          '<div id="meter-info" style="margin-left:auto;margin-right:auto;max-width:350px;">' +
 //          '<% _.each(features,function(regulations,key){ %>' +
@@ -508,7 +506,7 @@ var ParkingMap = ParkingMap || {};
 //        content = template({
 //          'features': byStreet
 //        });
-        break;
+//        b reak;
 
       default:
         content = '<div>' + (feature.properties.name ?
