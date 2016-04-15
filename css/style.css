@@ -315,7 +315,7 @@ p a {
 #bottom-icons {
   position: fixed;
   bottom: -1px;
-  background-color: rgb(205,220,57)!important;
+  background-color: #7B878F!important;
   color: white;
   height: 40px;
   width: 100%;
@@ -481,7 +481,7 @@ p a {
   padding-left: 65px;
 /*  min-height: 54px!important;*/
   height: 32px!important;
-  background-color: #46474A!important;
+/*  background-color: #46474A!important;*/
   margin-left: auto;
   margin-right: auto;
 }
@@ -543,7 +543,7 @@ overflow-y: hidden;
   font-size: .8rem!important;
 }
 .mdl-layout__header {
-  background-color: #46474A!important;
+  background-color: #727375!important;
 }
 .mdl-layout__header .mdl-layout__drawer-button {
   background-color: rgba(0,0,0,0)
