@@ -190,7 +190,7 @@ var ParkingMap = ParkingMap || {};
           if (features.length > 0) { // if there are more than none features
             feature = features[0];
             layerName = feature.layer.id;
-            if (layerName === 'meters.i') {
+            if (layerName === 'meters') {
               showInfo(layerName, features);
             } else {
               showInfo(layerName, feature);
@@ -417,15 +417,16 @@ var ParkingMap = ParkingMap || {};
 //            '<br>' + feature.properties.notes + '<br>' : '') + '</span></div>';
 //        break;
 
-//      case 'valet.i':
-//        content = '<div>' + (feature.properties.Name ?
-//            '<span class="location">' + feature.properties.Name + '</span>' : '') +
-//          (feature.properties.Hours ?
-//            '<p class="detail">Hours: ' + feature.properties.Hours + '<br>' : '') +
-//          (feature.properties.Spaces ?
-//            'Spaces: ' + feature.properties.Spaces : '') +
-//          '</p></div>';
-//        break;
+      case 'meters.i':
+        content = '<div>' + 
+          (feature.properties.METERID ?
+            '<span class="location">' + feature.properties.METERID + '</span>' : '') +
+          (feature.properties.METERTYPE ?
+            '<p class="detail">Type: ' + feature.properties.METERTYPE + '<br>' : '') +
+          (feature.properties.ROUTE ?
+            'Route: ' + feature.properties.ROUTE : '') +
+          '</p></div>';
+        break;
 
 //      case 'meters.i':
 //        content = []; // TODO: do this outside the switch once all are converted
@@ -511,11 +512,13 @@ var ParkingMap = ParkingMap || {};
       default:
         content = '<div>' + 
           (feature.properties.METERID ?
-           'MeterID: ' + feature.properties.METERID + '</p>' : '') + 
+           'MeterID: ' + feature.properties.METERID + '</p>' : '') +            
+          (feature.properties.REMARKS ?
+           + feature.properties.REMARKS + '</p>' : '') + 
           (feature.properties.BLKSTREET ?
             '<span class="location">' + feature.properties.BLKSTREET + '</span><br>' : '') +
           (feature.properties.DESCRIPTIO ?
-            '<strong>' + feature.properties.DESCRIPTIO + '</strong><br>' : '') +
+            '<br><strong>' + feature.properties.DESCRIPTIO + '</strong><br>' : '') +
           (feature.properties.BLK_SIDE ?
             '<span class="detail">Residential Permit Parking' + '<br>' +
            feature.properties.BLK_SIDE + ' sides<br>' : '') + '</span></div>';
@@ -534,9 +537,9 @@ var ParkingMap = ParkingMap || {};
   //  Show a loading screen because we are currently doing it a bit backwards
 
   loading_screen = pleaseWait({
-    logo: "img/logo_green.png",
+//    logo: "img/logo_green.png",
     backgroundColor: '#404040',
-    loadingHtml: "<div class='loading_text'>Mapping Philadelphia's parking regulations</div><div class='spinner'><div class='double-bounce1'></div><div class='double-bounce2'></div></div>"
+    loadingHtml: "<div class='loading_text'>Demystifying parking in the District</div><div class='spinner'><div class='double-bounce1'></div><div class='double-bounce2'></div></div>"
   });
 
   //  TODO: remove extra else below
