@@ -25,7 +25,7 @@ var ParkingMap = ParkingMap || {};
   'scooters',
   'lots',
   'garages',
-//  'snowroutes',
+  'snowroutes',
   'meters',
   'rpp',
 //  'rppdistricts',
@@ -143,7 +143,7 @@ var ParkingMap = ParkingMap || {};
             center: [-77.04, 38.90],
             zoom: 14.2,
             speed: 0.2,
-            bearing: 1,
+            bearing: 0.2,
             pitch: 0
           });
         }
@@ -190,7 +190,7 @@ var ParkingMap = ParkingMap || {};
           if (features.length > 0) { // if there are more than none features
             feature = features[0];
             layerName = feature.layer.id;
-            if (layerName === 'meters-testing-side.i') {
+            if (layerName === 'meters.i') {
               showInfo(layerName, features);
             } else {
               showInfo(layerName, feature);
@@ -225,7 +225,7 @@ var ParkingMap = ParkingMap || {};
       var layerAssociation = { //using '.i' in GL layernames we want to be interactive
         'scooters': ['scooters.i'],
 //        'valet': ['valet.i'],
-//        'snowroutes': ['snow_emergency_routes', 'snow_emergency_routes.label'],
+        'snowroutes': ['snowroutes.i'],
         'lots': ['lots.i'],
         'garages': ['garages.i'],
         'meters': ['meters.i'],
@@ -378,7 +378,7 @@ var ParkingMap = ParkingMap || {};
   };
 
   var showInfo = function (tpl, feature) {
-    console.log('Here is your info', tpl);
+    console.log('Here is your info', feature.properties);
     var content;
 
     switch (tpl) {
@@ -506,17 +506,19 @@ var ParkingMap = ParkingMap || {};
 //        content = template({
 //          'features': byStreet
 //        });
-//        b reak;
+//        break;
 
       default:
-        content = '<div>' + (feature.properties.name ?
-            '<span class="location">' + feature.properties.name + '</span><br>' : '') +
-          (feature.properties.title ?
-            '<strong>' + feature.properties.title + '</strong><br>' : '') +
-          (feature.properties.description ?
-            '<span class="detail">' + feature.properties.description + '<br>' : '') +
-          (feature.properties.capacity ?
-            'Capacity: ' + feature.properties.capacity + '</p>' : '') + '</span></div>';
+        content = '<div>' + 
+          (feature.properties.METERID ?
+           'MeterID: ' + feature.properties.METERID + '</p>' : '') + 
+          (feature.properties.BLKSTREET ?
+            '<span class="location">' + feature.properties.BLKSTREET + '</span><br>' : '') +
+          (feature.properties.DESCRIPTIO ?
+            '<strong>' + feature.properties.DESCRIPTIO + '</strong><br>' : '') +
+          (feature.properties.BLK_SIDE ?
+            '<span class="detail">Residential Permit Parking' + '<br>' +
+           feature.properties.BLK_SIDE + ' sides<br>' : '') + '</span></div>';
         break;
 
         //      case 'rppdistricts.i':
