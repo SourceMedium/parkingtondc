@@ -92,7 +92,7 @@ var ParkingMap = ParkingMap || {};
       container: 'map', // container id
       style: 'mapbox://styles/laurenancona/cigvuc6hj000h9om3gy2wy1e7', // stylesheet location
       center: [-77.0378, 38.8998],
-      bearing: 1, // Rotate Philly ~9° off of north, thanks Billy Penn.
+      bearing: .2, // ~.2° to align grid.
       zoom: 12,
       maxZoom: 19,
       minZoom: 12,
@@ -167,12 +167,6 @@ var ParkingMap = ParkingMap || {};
       geocoderInput.focus();
       geocoderInput.setSelectionRange(0, 9999);
     });
-
-    // add/remove 'quiet', depending on test conditional, i less than 10
-
-    // div.classList.toggle("visible", i < 10 );
-    // alert(div.classList.contains("foo"));
-    // div.classList.add("foo","bar"); //add multiple classes
 
     // Listen for clicks on features & pass data to templates
     ParkingMap.map.on('click', function (evt) {
@@ -363,7 +357,7 @@ var ParkingMap = ParkingMap || {};
           geocoderInput.blur(); // blur so keyboard goes away
         }
 
-        // override janky Philadelphia bounding box bug by forcing center on point
+        // override Mapbox geocoder bounding box bug by forcing center on point
         map.flyTo({
           center: center,
           zoom: 15
@@ -562,7 +556,7 @@ var ParkingMap = ParkingMap || {};
   }
 
   // setup persistent state for sharing tools
-  var encodedShareMessage = window.encodeURIComponent('Philly parking, demystified.'),
+  var encodedShareMessage = window.encodeURIComponent('District parking, demystified.'),
     encodedShareUrl, copyShareLinkTextarea;
 
   // update hrefs when share menu button is clicked
